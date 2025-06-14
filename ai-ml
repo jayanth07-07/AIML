@@ -1,0 +1,59 @@
+import java.util.*;
+
+public class PasswordGenerator {
+
+    // Character sets
+    static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+    static final String NUMBERS = "0123456789";
+    static final String SPECIAL = "!@#$%^&*()-_=+[]{};:,.<>?/";
+
+    public static String generatePassword(int length, boolean useUpper, boolean useLower, boolean useNumber, boolean useSpecial) {
+        StringBuilder charPool = new StringBuilder();
+        Random random = new Random();
+
+        // Add character sets based on user choice
+        if (useUpper) charPool.append(UPPERCASE);
+        if (useLower) charPool.append(LOWERCASE);
+        if (useNumber) charPool.append(NUMBERS);
+        if (useSpecial) charPool.append(SPECIAL);
+
+        // If no character types selected, return error
+        if (charPool.length() == 0) {
+            return "Error: No character types selected.";
+        }
+
+        // Generate password
+        StringBuilder password = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(charPool.length());
+            password.append(charPool.charAt(index));
+        }
+
+        return password.toString();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("=== Password Generator ===");
+        System.out.print("Enter password length: ");
+        int length = sc.nextInt();
+
+        System.out.print("Include uppercase letters? (true/false): ");
+        boolean useUpper = sc.nextBoolean();
+
+        System.out.print("Include lowercase letters? (true/false): ");
+        boolean useLower = sc.nextBoolean();
+
+        System.out.print("Include numbers? (true/false): ");
+        boolean useNumber = sc.nextBoolean();
+
+        System.out.print("Include special characters? (true/false): ");
+        boolean useSpecial = sc.nextBoolean();
+
+        String password = generatePassword(length, useUpper, useLower, useNumber, useSpecial);
+
+        System.out.println("Generated Password: " + password);
+    }
+}
